@@ -1,0 +1,65 @@
+{
+  "skill_name": "online-doc-editor",
+  "status": "designed_not_executed",
+  "setup": "Use disposable online document copies. Each comparison starts from the same initial document and task. Do not run against the original collaborative document. Cases are evaluation specifications, not an executable runner.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "只修改测试副本2.1节的字体、字号和行距，参照2.3节；文字、引用和编号都不要改，保留修订。",
+      "expected_output": "指定字段与参照一致，正文逐段文字相同，邻节未改，修订与保存结果有证据。",
+      "fixture": "2.1与2.3含相同层级段落；2.1含加粗术语、引用和自动编号。",
+      "assertions": ["Text and citations unchanged", "Only requested style fields changed", "Unrelated ranges unchanged", "Track changes respected", "Saved state verified or explicitly unknown"]
+    },
+    {
+      "id": 2,
+      "prompt": "把测试副本中没有进入大纲的4.2.1.2修成与4.2.1.1同级的标题，不改标题文字与正文。",
+      "expected_output": "标题文字相同，独立成段，大纲级别和显示样式一致；无法验证大纲时明确说明未完成。",
+      "fixture": "4.2.1.2外观加粗但大纲级别为正文；另有修订中的旧标题。",
+      "assertions": ["Correct current heading targeted", "Heading text unchanged", "Outline position verified", "Adjacent paragraph boundaries preserved"]
+    },
+    {
+      "id": 3,
+      "prompt": "直接扩写测试副本2.1节，组织形式参照2.3、2.4，只写给定资料支持的课题一内容，保留格式和修订，不用逐段问我。",
+      "expected_output": "形成有逻辑、术语一致、资料可支持的扩写；未复制其他课题技术内容；在线正文与预期稿一致且格式保持。",
+      "fixture": "提供课题一事实材料与2.3、2.4样例；样例包含不属于课题一的方法。",
+      "assertions": ["Claims supported by supplied material", "No transfer of unrelated technical claims", "No redundant confirmation", "Text readback matches draft", "Style and revision checks performed"]
+    },
+    {
+      "id": 4,
+      "prompt": "把测试副本2.1节中的‘协同机制’改成‘协同机理’，其他章节不要动。",
+      "expected_output": "只处理限定章节；多个命中用上下文定位，不能替换所有同名片段。",
+      "fixture": "2.1、2.3和删除修订中均存在相同短语。",
+      "assertions": ["Scope correctly enforced", "Ambiguous anchors resolved before mutation", "Other chapters and deleted revisions preserved"]
+    },
+    {
+      "id": 5,
+      "prompt": "读取测试副本3.1节并完善语言。",
+      "expected_output": "发现正文采集为空且无法验证真实选区时，不根据目录编造原文或写入；具体报告能力缺口。",
+      "fixture": "模拟编辑器只暴露工具栏、目录和canvas，文本提取返回空。",
+      "assertions": ["No fabricated full-text claim", "No mutation with unknown selection", "Specific unsupported capability stated"]
+    },
+    {
+      "id": 6,
+      "prompt": "按已拟定修改稿替换测试副本第二段。",
+      "expected_output": "若计划后原文被协作者更改，重新读取并报告冲突，不覆盖新文字。",
+      "fixture": "在计划与写入之间注入协作者对目标段的修改。",
+      "assertions": ["Expected old text checked again", "Conflict detected", "Collaborator text preserved"]
+    },
+    {
+      "id": 7,
+      "prompt": "继续插入上一轮尚未确认成功的段落。",
+      "expected_output": "先核对上次操作的实际效果；已插入时不再插入，未知时不盲重试。",
+      "fixture": "服务端接受写入后模拟工具回包超时。",
+      "assertions": ["Readback precedes retry", "No duplicate paragraph", "Unknown effects not mislabeled as no effect"]
+    },
+    {
+      "id": 8,
+      "prompt": "继续昨天对测试副本2.1节的编辑。",
+      "expected_output": "读取检查点后确认当前在线版本、目标段和待办；不照旧坐标或重放已完成操作。",
+      "fixture": "检查点标记两段完成，在线文档有新增协作者内容，当前活动标签为其他页面。",
+      "assertions": ["Correct document rebound", "Current text rechecked", "Completed edits not replayed", "Stale coordinates discarded"]
+    }
+  ],
+  "metrics": ["Completed tasks with verified outcomes", "Correctly reported capability limits", "Unintended content or format changes", "Duplicate writes", "Tool call count", "Elapsed time", "Image calls", "Human interventions"],
+  "comparison": "Run the first three cases with previous skill or no skill and with v2, holding browser backend and starting fixture constant. Compare browser backend changes separately. Record failures as well as successes. No evaluation has been executed by authoring this file."
+}

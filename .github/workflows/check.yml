@@ -1,0 +1,12 @@
+name: Skill installation checks
+on:
+  push:
+  pull_request:
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Test isolated install and uninstall
+        shell: pwsh
+        run: ./tests/test-install.ps1

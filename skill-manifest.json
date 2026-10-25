@@ -1,0 +1,15 @@
+{
+  "package": "dsh-online-doc-editor",
+  "skill": "online-doc-editor",
+  "version": "0.1.0-rc.1",
+  "tree": [
+    "D:evals",
+    "D:references",
+    "F:SKILL.md:ac175d4a1f48e3d002ee5f09eb936f35f6825c51d5532c38268bdd3d3837675c",
+    "F:evals/evals.json:248e1e6547d7819d08935b181950e4e290e1dcc07755610e61f50635094cf295",
+    "F:references/formatting.md:276b39aaeed1162b4207b0e02124abcd87c6c8e818c44db7e70f0d75adb62c7a",
+    "F:references/kdocs.md:005a662d216ef926f9c20684acc6bad0be567718d12383751e44462fbb425c66",
+    "F:references/sources.md:e429e33f63e8a44e8a4c3461980e1bfe8602cb8ada8d7061962c85cfc3a51705",
+    "F:references/writing.md:9002a86673b5f953a818f36a553f7f96b2374ce39ac8c968d505ead64f6b252c"
+  ]
+}
